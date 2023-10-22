@@ -2,7 +2,7 @@ package com.blog.postservice.mocks;
 
 import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.infrastructure.requests.CreatePostRequest;
-import com.blog.postservice.infrastructure.responses.CreatePostResponse;
+import com.blog.postservice.infrastructure.responses.PostResponse;
 
 import java.time.LocalDateTime;
 
@@ -22,9 +22,9 @@ public class MockBuilder {
         );
     }
 
-    public static CreatePostResponse createPostResponse() {
+    public static PostResponse createPostResponse() {
         var date = createLocalDateTime();
-        return new CreatePostResponse(
+        return new PostResponse(
                 "Title mock test",
                 "Description mocked from the test in application.",
                 date

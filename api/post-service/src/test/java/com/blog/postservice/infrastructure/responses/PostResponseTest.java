@@ -8,10 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class CreatePostResponseTest {
+public class PostResponseTest {
 
     @InjectMocks
-    private CreatePostResponse createPostResponse;
+    private PostResponse postResponse;
 
     @Test
     void shouldCreatePostRequest() {

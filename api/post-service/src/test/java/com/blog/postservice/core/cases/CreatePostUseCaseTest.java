@@ -16,10 +16,10 @@ public class CreatePostUseCaseTest {
 
     @Test
     void shouldCreatePost() {
-        var post = MockBuilder.createPost();
+        var postResponse = MockBuilder.createPostResponse();
         var title = "Title mock test";
         var description = "Description mocked from the test in application.";
-        Mockito.when(createPostUseCase.createPost(title, description)).thenReturn(post);
+        Mockito.when(createPostUseCase.createPost(title, description)).thenReturn(postResponse);
         var response = createPostUseCase.createPost(title, description);
         Assertions.assertThat(response).isNotNull();
     }

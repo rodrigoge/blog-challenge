@@ -1,6 +1,5 @@
 package com.blog.postservice.adapters.controllers;
 
-import com.blog.postservice.adapters.mappers.PostMapper;
 import com.blog.postservice.application.services.PostService;
 import com.blog.postservice.mocks.MockBuilder;
 import org.assertj.core.api.Assertions;
@@ -20,19 +19,15 @@ public class PostControllerTest {
     @Mock
     private PostService postService;
 
-    @Mock
-    private PostMapper postMapper;
 
     @Test
     void shouldCreatePostWhen_SendRequest() {
         var title = "Title mock test";
         var description = "Description mocked from the test in application.";
         var date = MockBuilder.createLocalDateTime();
-        var post = MockBuilder.createPost();
         var request = MockBuilder.createPostRequest();
         var createPostResponse = MockBuilder.createPostResponse();
-        Mockito.when(postService.createPost(title, description)).thenReturn(post);
-        Mockito.when(postMapper.fromPostEntity(post)).thenReturn(createPostResponse);
+        Mockito.when(postService.createPost(title, description)).thenReturn(createPostResponse);
         var response = postController.createPost(request);
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getBody()).isNotNull();
