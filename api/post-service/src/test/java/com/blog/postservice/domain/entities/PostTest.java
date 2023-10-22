@@ -18,7 +18,7 @@ public class PostTest {
     @Test
     void shouldCreatePostObject() {
         var response = MockBuilder.createPost();
-        response.setId(UUID.fromString("64aad137-45eb-46f5-ac45-0919563886b2"));
+        response.setId(MockBuilder.buildUUIDFromString());
         response.setCreatedAt(MockBuilder.createLocalDateTime());
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getId()).isNotNull();

@@ -23,4 +23,14 @@ public class PostGatewayTest {
         var postGatewayResponse = postGateway.createPost(title, description);
         Assertions.assertThat(postGatewayResponse).isNotNull();
     }
+
+    @Test
+    void shouldTestGetPostsGateway() {
+        var specification = MockBuilder.createPostSpecification();
+        var pageable = MockBuilder.createPageable();
+        var postPage = MockBuilder.createPagePost();
+        Mockito.when(postGateway.getPosts(specification, pageable)).thenReturn(postPage);
+        var response = postGateway.getPosts(specification, pageable);
+        Assertions.assertThat(response).isNotNull();
+    }
 }

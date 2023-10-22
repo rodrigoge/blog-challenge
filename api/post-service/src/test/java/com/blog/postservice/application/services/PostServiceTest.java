@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import java.lang.reflect.InvocationTargetException;
 
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
@@ -46,5 +49,22 @@ public class PostServiceTest {
             postService.createPost(title, description);
         });
         Assertions.assertThat(customException).isNotNull();
+    }
+
+    @Test
+    void shouldGetPostsWhen_SendRequest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        var request = MockBuilder.createGetPostRequest();
+        var specifications = MockBuilder.createPostSpecification();
+        var pageable = MockBuilder.createPageable();
+        var pagePosts = MockBuilder.createPagePost();
+        var post = MockBuilder.createPost();
+        var postResponse = MockBuilder.createPostResponse();
+        Mockito.when(postRepositoryGateway.getPosts(specifications, pageable)).thenReturn(pagePosts);
+        Mockito.when(postMapper.fromPostEntity(post)).thenReturn(postResponse);
+        ReflectionTestUtils.invokeMethod(postService, "buildSpecifications", request);
+        ReflectionTestUtils.invokeMethod(postService, "buildPageable", request);
+        ReflectionTestUtils.invokeMethod(postService, "buildMapper", pagePosts);
+        var response = postService.getPosts(request);
+        Assertions.assertThat(response).isNotNull();
     }
 }
