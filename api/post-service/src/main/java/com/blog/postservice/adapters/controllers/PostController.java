@@ -46,10 +46,10 @@ public class PostController {
                                                        @RequestParam(required = false) String title,
                                                        @RequestParam(required = false) LocalDateTime initialDate,
                                                        @RequestParam(required = false) LocalDateTime endDate,
-                                                       @RequestParam(required = true, defaultValue = "0") int page,
-                                                       @RequestParam(required = true, defaultValue = "25") int limit,
-                                                       @RequestParam(required = true, defaultValue = "id") String columnName,
-                                                       @RequestParam(required = true, defaultValue = "DESC") OrderEnumRequest order) {
+                                                       @RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "25") int limit,
+                                                       @RequestParam(defaultValue = "id") String columnName,
+                                                       @RequestParam(defaultValue = "DESC") OrderEnumRequest order) {
         log.info("Entering the get posts flow.");
         var request = new GetPostsRequest(id, title, initialDate, endDate, page, limit, columnName, order);
         var response = postService.getPosts(request);
