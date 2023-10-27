@@ -26,4 +26,10 @@ public class PostTest {
         Assertions.assertThat(response.getDescription()).isNotNull();
         Assertions.assertThat(response.getCreatedAt()).isNotNull();
     }
+
+    @Test
+    void shouldCreatePostObjectWhen_EmptyConstructor() {
+        var response = new Post();
+        Assertions.assertThat(response).isNotNull();
+    }
 }

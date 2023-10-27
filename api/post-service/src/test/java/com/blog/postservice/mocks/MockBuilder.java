@@ -5,6 +5,7 @@ import com.blog.postservice.infrastructure.requests.CreatePostRequest;
 import com.blog.postservice.infrastructure.requests.GetPostsRequest;
 import com.blog.postservice.infrastructure.requests.OrderEnumRequest;
 import com.blog.postservice.infrastructure.responses.PostResponse;
+import com.blog.postservice.infrastructure.specifications.PostSpecifications;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

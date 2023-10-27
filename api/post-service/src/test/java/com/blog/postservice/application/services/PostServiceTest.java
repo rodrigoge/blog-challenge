@@ -2,6 +2,8 @@ package com.blog.postservice.application.services;
 
 import com.blog.postservice.adapters.mappers.PostMapper;
 import com.blog.postservice.application.gateways.PostRepositoryGateway;
+import com.blog.postservice.core.exceptions.CustomException;
+import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.mocks.MockBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,9 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
@@ -52,19 +58,29 @@ public class PostServiceTest {
     }
 
     @Test
-    void shouldGetPostsWhen_SendRequest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    void shouldGetPostsWhen_SendRequest() {
         var request = MockBuilder.createGetPostRequest();
-        var specifications = MockBuilder.createPostSpecification();
-        var pageable = MockBuilder.createPageable();
-        var pagePosts = MockBuilder.createPagePost();
-        var post = MockBuilder.createPost();
-        var postResponse = MockBuilder.createPostResponse();
-        Mockito.when(postRepositoryGateway.getPosts(specifications, pageable)).thenReturn(pagePosts);
-        Mockito.when(postMapper.fromPostEntity(post)).thenReturn(postResponse);
-        ReflectionTestUtils.invokeMethod(postService, "buildSpecifications", request);
-        ReflectionTestUtils.invokeMethod(postService, "buildPageable", request);
-        ReflectionTestUtils.invokeMethod(postService, "buildMapper", pagePosts);
-        var response = postService.getPosts(request);
-        Assertions.assertThat(response).isNotNull();
+        Page<Post> samplePage = new PageImpl<>(new ArrayList<>());
+        Mockito.when(postRepositoryGateway.getPosts(Mockito.any(), Mockito.any())).thenReturn(samplePage);
+        postService.getPosts(request);
+        Mockito.verify(postRepositoryGateway).getPosts(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    void shouldReturnCustomExceptionWhen_InvalidDates() throws NoSuchMethodException {
+        Class<?> clazz = postService.getClass();
+        Method validateMethod = clazz.getDeclaredMethod("validateInitialAndEndDate", LocalDateTime.class, LocalDateTime.class);
+        validateMethod.setAccessible(true);
+        var initialDate = LocalDateTime.of(2023, 1, 1, 12, 0);
+        var endDate = LocalDateTime.of(2022, 12, 31, 12, 0);
+        var exception = org.junit.jupiter.api.Assertions.assertThrows(CustomException.class, () -> {
+            try {
+                validateMethod.invoke(postService, initialDate, endDate);
+            } catch (Exception e) {
+                throw e.getCause();
+            }
+        });
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Error because the initial date is after the end date.");
     }
 }
