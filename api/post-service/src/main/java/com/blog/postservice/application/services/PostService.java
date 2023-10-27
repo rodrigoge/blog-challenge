@@ -4,6 +4,7 @@ import com.blog.postservice.adapters.mappers.PostMapper;
 import com.blog.postservice.application.gateways.PostRepositoryGateway;
 import com.blog.postservice.core.cases.CreatePostUseCase;
 import com.blog.postservice.core.cases.GetPostsUseCase;
+import com.blog.postservice.core.cases.UpdatePostUseCase;
 import com.blog.postservice.core.exceptions.CustomException;
 import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.infrastructure.requests.GetPostsRequest;
@@ -21,11 +22,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-public class PostService implements CreatePostUseCase, GetPostsUseCase {
+public class PostService implements CreatePostUseCase, GetPostsUseCase, UpdatePostUseCase {
 
     private final PostRepositoryGateway postRepositoryGateway;
     private final PostMapper postMapper;
@@ -113,5 +115,21 @@ public class PostService implements CreatePostUseCase, GetPostsUseCase {
                     "Error because the initial date is after the end date."
             );
         }
+    }
+
+    @Override
+    public PostResponse updatePost(UUID postId, String title, String description) {
+        log.info("Sending the content to be update in the base.");
+        var postFounded = postRepositoryGateway.updatePost(postId, title, description);
+        if (postFounded == null) {
+            throw new CustomException(
+                    HttpStatus.BAD_REQUEST,
+                    LocalDateTime.now(),
+                    "Error while the post was updated."
+            );
+        }
+        var response = postMapper.fromPostEntity(postFounded);
+        log.info("Sending the content to be mapping.");
+        return response;
     }
 }

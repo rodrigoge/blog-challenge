@@ -38,4 +38,10 @@ public class Post {
         this.title = title;
         this.description = description;
     }
+
+    public Post(UUID id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
 }

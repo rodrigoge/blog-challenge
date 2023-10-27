@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +56,15 @@ public class PostController {
         var request = new GetPostsRequest(id, title, initialDate, endDate, page, limit, columnName, order);
         var response = postService.getPosts(request);
         log.info("Finishing the get posts flow.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostResponse> updatePost(@PathVariable UUID postId,
+                                                   @Valid @RequestBody CreatePostRequest request) {
+        log.info("Entering the update post flow.");
+        var response = postService.updatePost(postId, request.title(), request.description());
+        log.info("Finishing the update post flow.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
