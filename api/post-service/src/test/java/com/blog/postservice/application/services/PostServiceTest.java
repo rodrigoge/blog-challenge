@@ -83,4 +83,31 @@ public class PostServiceTest {
         Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Error because the initial date is after the end date.");
     }
+
+    @Test
+    void shouldUpdatePostObjectWhen_SendingToService() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        var title = "Title mock test";
+        var description = "Description mocked from the test in application.";
+        var post = MockBuilder.createPost();
+        var postResponse = MockBuilder.createPostResponse();
+        Mockito.when(postRepositoryGateway.updatePost(uuid, title, description)).thenReturn(post);
+        Mockito.when(postMapper.fromPostEntity(post)).thenReturn(postResponse);
+        var response = postService.updatePost(uuid, title, description);
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.title()).isEqualTo(title);
+        Assertions.assertThat(response.description()).isEqualTo(description);
+    }
+
+    @Test
+    void shouldCustomExceptionWhen_NotFoundPostToUpdate() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        var title = "Title mock test";
+        var description = "Description mocked from the test in application.";
+        Mockito.when(postRepositoryGateway.updatePost(uuid, title, description)).thenReturn(null);
+        var customException = Assertions.catchThrowable(() -> {
+            postService.updatePost(uuid, title, description);
+        });
+        Assertions.assertThat(customException).isNotNull();
+    }
 }

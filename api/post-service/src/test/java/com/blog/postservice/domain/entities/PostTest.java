@@ -32,4 +32,14 @@ public class PostTest {
         var response = new Post();
         Assertions.assertThat(response).isNotNull();
     }
+
+    @Test
+    void shouldCreatePostObjectWhen_PostConstructor() {
+        var response = new Post(
+                MockBuilder.buildUUIDFromString(),
+                "Title from test.",
+                "Description from test."
+        );
+        Assertions.assertThat(response).isNotNull();
+    }
 }

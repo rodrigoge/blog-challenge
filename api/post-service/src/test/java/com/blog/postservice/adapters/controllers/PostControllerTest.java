@@ -65,4 +65,21 @@ public class PostControllerTest {
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getBody()).isNotNull();
     }
+
+    @Test
+    void shouldUpdatePostWhen_SendRequest() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        var title = "Title mock test";
+        var description = "Description mocked from the test in application.";
+        var date = MockBuilder.createLocalDateTime();
+        var request = MockBuilder.createPostRequest();
+        var createPostResponse = MockBuilder.createPostResponse();
+        Mockito.when(postService.updatePost(uuid, title, description)).thenReturn(createPostResponse);
+        var response = postController.updatePost(uuid, request);
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getBody()).isNotNull();
+        Assertions.assertThat(response.getBody().title()).isEqualTo(title);
+        Assertions.assertThat(response.getBody().description()).isEqualTo(description);
+        Assertions.assertThat(response.getBody().createdAt()).isEqualTo(date);
+    }
 }

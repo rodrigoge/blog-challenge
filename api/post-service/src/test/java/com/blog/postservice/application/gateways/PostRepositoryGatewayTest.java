@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 public class PostRepositoryGatewayTest {
 
@@ -38,5 +40,30 @@ public class PostRepositoryGatewayTest {
         Mockito.when(postRepository.findAll(specifications, pageable)).thenReturn(pagePost);
         var response = postRepositoryGateway.getPosts(specifications, pageable);
         Assertions.assertThat(response).isNotNull();
+    }
+
+    @Test
+    void shouldUpdatePostWhen_SendIdAndTitleAndDescription() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        var title = "Title mock test";
+        var description = "Description mocked from the test in application.";
+        var post = MockBuilder.createPost();
+        var postResponse = MockBuilder.createPost();
+        Mockito.when(postRepository.findById(uuid)).thenReturn(Optional.of(postResponse));
+        Mockito.when(postRepository.save(post)).thenReturn(postResponse);
+        var response = postRepositoryGateway.updatePost(uuid, title, description);
+        Assertions.assertThat(response).isNotNull();
+    }
+
+    @Test
+    void shouldCustomExceptionWhen_PostNotFound() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        var title = "Title mock test";
+        var description = "Description mocked from the test in application.";
+        Mockito.when(postRepository.findById(uuid)).thenReturn(Optional.empty());
+        var customException = Assertions.catchThrowable(() -> {
+            postRepositoryGateway.updatePost(uuid, title, description);
+        });
+        Assertions.assertThat(customException).isNotNull();
     }
 }

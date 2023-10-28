@@ -33,4 +33,15 @@ public class PostGatewayTest {
         var response = postGateway.getPosts(specification, pageable);
         Assertions.assertThat(response).isNotNull();
     }
+
+    @Test
+    void shouldTestUpdatePostGateway() {
+        var post = MockBuilder.createPost();
+        var uuid = MockBuilder.buildUUIDFromString();
+        var title = post.getTitle();
+        var description = post.getDescription();
+        Mockito.when(postGateway.updatePost(uuid, title, description)).thenReturn(post);
+        var postGatewayResponse = postGateway.updatePost(uuid, title, description);
+        Assertions.assertThat(postGatewayResponse).isNotNull();
+    }
 }
