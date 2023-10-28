@@ -1,5 +1,6 @@
 package com.blog.postservice.application.gateways;
 
+import com.blog.postservice.domain.entities.Commentary;
 import com.blog.postservice.mocks.MockBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class PostGatewayTest {
@@ -40,8 +43,9 @@ public class PostGatewayTest {
         var uuid = MockBuilder.buildUUIDFromString();
         var title = post.getTitle();
         var description = post.getDescription();
-        Mockito.when(postGateway.updatePost(uuid, title, description)).thenReturn(post);
-        var postGatewayResponse = postGateway.updatePost(uuid, title, description);
+        var commentaries = List.of(new Commentary());
+        Mockito.when(postGateway.updatePost(uuid, title, description, commentaries)).thenReturn(post);
+        var postGatewayResponse = postGateway.updatePost(uuid, title, description, commentaries);
         Assertions.assertThat(postGatewayResponse).isNotNull();
     }
 }

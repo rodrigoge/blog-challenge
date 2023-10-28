@@ -1,11 +1,11 @@
 package com.blog.postservice.mocks;
 
+import com.blog.postservice.domain.entities.Commentary;
 import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.infrastructure.requests.CreatePostRequest;
 import com.blog.postservice.infrastructure.requests.GetPostsRequest;
 import com.blog.postservice.infrastructure.requests.OrderEnumRequest;
 import com.blog.postservice.infrastructure.responses.PostResponse;
-import com.blog.postservice.infrastructure.specifications.PostSpecifications;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,21 +13,25 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class MockBuilder {
 
     public static Post createPost() {
         return new Post(
+                MockBuilder.buildUUIDFromString(),
                 "Title mock test",
-                "Description mocked from the test in application."
+                "Description mocked from the test in application.",
+                List.of(new Commentary())
         );
     }
 
     public static CreatePostRequest createPostRequest() {
         return new CreatePostRequest(
                 "Title mock test",
-                "Description mocked from the test in application."
+                "Description mocked from the test in application.",
+                List.of(new Commentary())
         );
     }
 
@@ -78,5 +82,14 @@ public class MockBuilder {
 
     public static Page<Post> createPagePost() {
         return Page.empty();
+    }
+
+    public static  Commentary createCommentary() {
+        return new Commentary(
+                buildUUIDFromString(),
+                "Commentary text from test.",
+                createLocalDateTime(),
+                createPost()
+        );
     }
 }

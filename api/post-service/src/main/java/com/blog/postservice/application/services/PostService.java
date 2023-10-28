@@ -6,6 +6,7 @@ import com.blog.postservice.core.cases.CreatePostUseCase;
 import com.blog.postservice.core.cases.GetPostsUseCase;
 import com.blog.postservice.core.cases.UpdatePostUseCase;
 import com.blog.postservice.core.exceptions.CustomException;
+import com.blog.postservice.domain.entities.Commentary;
 import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.infrastructure.requests.GetPostsRequest;
 import com.blog.postservice.infrastructure.responses.PostResponse;
@@ -118,9 +119,9 @@ public class PostService implements CreatePostUseCase, GetPostsUseCase, UpdatePo
     }
 
     @Override
-    public PostResponse updatePost(UUID postId, String title, String description) {
+    public PostResponse updatePost(UUID postId, String title, String description, List<Commentary> commentaries) {
         log.info("Sending the content to be update in the base.");
-        var postFounded = postRepositoryGateway.updatePost(postId, title, description);
+        var postFounded = postRepositoryGateway.updatePost(postId, title, description, commentaries);
         if (postFounded == null) {
             throw new CustomException(
                     HttpStatus.BAD_REQUEST,

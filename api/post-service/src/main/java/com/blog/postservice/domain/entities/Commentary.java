@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,41 +13,25 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "commentaries")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Commentary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(length = 30, nullable = false)
-    private String title;
-
-    @Column(length = 80, nullable = false)
+    @Column(length = 250, nullable = false)
     private String description;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "post")
-    private List<Commentary> commentaries;
-
-    public Post(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
-    public Post(UUID id, String title, String description, List<Commentary> commentaries) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.commentaries = commentaries;
-    }
+    @ManyToOne
+    private Post post;
 }

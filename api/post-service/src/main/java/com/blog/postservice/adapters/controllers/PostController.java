@@ -63,7 +63,7 @@ public class PostController {
     public ResponseEntity<PostResponse> updatePost(@PathVariable UUID postId,
                                                    @Valid @RequestBody CreatePostRequest request) {
         log.info("Entering the update post flow.");
-        var response = postService.updatePost(postId, request.title(), request.description());
+        var response = postService.updatePost(postId, request.title(), request.description(), request.commentaries());
         log.info("Finishing the update post flow.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

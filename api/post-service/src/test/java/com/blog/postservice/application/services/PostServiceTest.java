@@ -3,6 +3,7 @@ package com.blog.postservice.application.services;
 import com.blog.postservice.adapters.mappers.PostMapper;
 import com.blog.postservice.application.gateways.PostRepositoryGateway;
 import com.blog.postservice.core.exceptions.CustomException;
+import com.blog.postservice.domain.entities.Commentary;
 import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.mocks.MockBuilder;
 import org.assertj.core.api.Assertions;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
@@ -89,11 +91,12 @@ public class PostServiceTest {
         var uuid = MockBuilder.buildUUIDFromString();
         var title = "Title mock test";
         var description = "Description mocked from the test in application.";
+        var commentaries = List.of(new Commentary());
         var post = MockBuilder.createPost();
         var postResponse = MockBuilder.createPostResponse();
-        Mockito.when(postRepositoryGateway.updatePost(uuid, title, description)).thenReturn(post);
+        Mockito.when(postRepositoryGateway.updatePost(uuid, title, description, commentaries)).thenReturn(post);
         Mockito.when(postMapper.fromPostEntity(post)).thenReturn(postResponse);
-        var response = postService.updatePost(uuid, title, description);
+        var response = postService.updatePost(uuid, title, description, commentaries);
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.title()).isEqualTo(title);
         Assertions.assertThat(response.description()).isEqualTo(description);
@@ -104,9 +107,10 @@ public class PostServiceTest {
         var uuid = MockBuilder.buildUUIDFromString();
         var title = "Title mock test";
         var description = "Description mocked from the test in application.";
-        Mockito.when(postRepositoryGateway.updatePost(uuid, title, description)).thenReturn(null);
+        var commentaries = List.of(new Commentary());
+        Mockito.when(postRepositoryGateway.updatePost(uuid, title, description, commentaries)).thenReturn(null);
         var customException = Assertions.catchThrowable(() -> {
-            postService.updatePost(uuid, title, description);
+            postService.updatePost(uuid, title, description, commentaries);
         });
         Assertions.assertThat(customException).isNotNull();
     }
