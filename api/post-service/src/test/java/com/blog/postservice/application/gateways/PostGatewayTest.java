@@ -48,4 +48,12 @@ public class PostGatewayTest {
         var postGatewayResponse = postGateway.updatePost(uuid, title, description, commentaries);
         Assertions.assertThat(postGatewayResponse).isNotNull();
     }
+
+    @Test
+    void shouldTestDeletePostGateway() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        Mockito.doNothing().when(postGateway).deletePost(uuid);
+        postGateway.deletePost(uuid);
+        Mockito.verify(postGateway, Mockito.times(1)).deletePost(uuid);
+    }
 }

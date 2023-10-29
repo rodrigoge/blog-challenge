@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,5 +67,13 @@ public class PostController {
         var response = postService.updatePost(postId, request.title(), request.description(), request.commentaries());
         log.info("Finishing the update post flow.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable UUID postId) {
+        log.info("Entering the delete post flow.");
+        postService.deletePost(postId);
+        log.info("Finishing the delete post flow");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

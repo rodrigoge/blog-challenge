@@ -52,4 +52,18 @@ public class PostRepositoryGateway implements PostGateway {
         var post = new Post(id, title, description, createdAt, commentaries);
         return postRepository.save(post);
     }
+
+    @Override
+    public void deletePost(UUID postId) {
+        log.info("Deleting the post in the database.");
+        if (!postRepository.existsById(postId)) {
+            throw new CustomException(
+                    HttpStatus.BAD_REQUEST,
+                    LocalDateTime.now(),
+                    "Error because post is not found in the database."
+            );
+        }
+        postRepository.deleteById(postId);
+        log.info("Post already deleted in the database.");
+    }
 }

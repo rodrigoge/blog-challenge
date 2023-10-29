@@ -3,6 +3,7 @@ package com.blog.postservice.application.services;
 import com.blog.postservice.adapters.mappers.PostMapper;
 import com.blog.postservice.application.gateways.PostRepositoryGateway;
 import com.blog.postservice.core.cases.CreatePostUseCase;
+import com.blog.postservice.core.cases.DeletePostUseCase;
 import com.blog.postservice.core.cases.GetPostsUseCase;
 import com.blog.postservice.core.cases.UpdatePostUseCase;
 import com.blog.postservice.core.exceptions.CustomException;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-public class PostService implements CreatePostUseCase, GetPostsUseCase, UpdatePostUseCase {
+public class PostService implements CreatePostUseCase, GetPostsUseCase, UpdatePostUseCase, DeletePostUseCase {
 
     private final PostRepositoryGateway postRepositoryGateway;
     private final PostMapper postMapper;
@@ -120,7 +121,7 @@ public class PostService implements CreatePostUseCase, GetPostsUseCase, UpdatePo
 
     @Override
     public PostResponse updatePost(UUID postId, String title, String description, List<Commentary> commentaries) {
-        log.info("Sending the content to be update in the base.");
+        log.info("Sending the content to be updated in the base.");
         var postFounded = postRepositoryGateway.updatePost(postId, title, description, commentaries);
         if (postFounded == null) {
             throw new CustomException(
@@ -132,5 +133,11 @@ public class PostService implements CreatePostUseCase, GetPostsUseCase, UpdatePo
         var response = postMapper.fromPostEntity(postFounded);
         log.info("Sending the content to be mapping.");
         return response;
+    }
+
+    @Override
+    public void deletePost(UUID postId) {
+        log.info("Sending the content to be deleted in the base.");
+        postRepositoryGateway.deletePost(postId);
     }
 }

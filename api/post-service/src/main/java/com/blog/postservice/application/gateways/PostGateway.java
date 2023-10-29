@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface PostGateway {
@@ -17,4 +16,6 @@ public interface PostGateway {
     Page<Post> getPosts(Specification<Post> specifications, Pageable pageable);
 
     Post updatePost(UUID postId, String title, String description, List<Commentary> commentaries);
+
+    void deletePost(UUID postId);
 }

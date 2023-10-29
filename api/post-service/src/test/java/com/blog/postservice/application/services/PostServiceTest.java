@@ -114,4 +114,11 @@ public class PostServiceTest {
         });
         Assertions.assertThat(customException).isNotNull();
     }
+
+    @Test
+    void shouldDeletePostWhen_SendPostId() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        postService.deletePost(uuid);
+        Mockito.verify(postRepositoryGateway).deletePost(uuid);
+    }
 }

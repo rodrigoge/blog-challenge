@@ -1,6 +1,7 @@
 package com.blog.postservice.application.gateways;
 
 import com.blog.postservice.adapters.persistence.PostRepository;
+import com.blog.postservice.core.exceptions.CustomException;
 import com.blog.postservice.domain.entities.Commentary;
 import com.blog.postservice.domain.entities.Post;
 import com.blog.postservice.mocks.MockBuilder;
@@ -11,9 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class PostRepositoryGatewayTest {
@@ -68,5 +72,22 @@ public class PostRepositoryGatewayTest {
             postRepositoryGateway.updatePost(uuid, title, description, commentaries);
         });
         Assertions.assertThat(customException).isNotNull();
+    }
+
+    @Test
+    void shouldThrowDeletePostWhen_SendPostId() {
+        var postId = MockBuilder.buildUUIDFromString();
+        Mockito.when(postRepository.existsById(postId)).thenReturn(false);
+        var exception = assertThrows(CustomException.class, () -> postRepositoryGateway.deletePost(postId));
+        Mockito.verify(postRepository, Mockito.never()).deleteById(postId);
+        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void shouldDeletePostWhen_SendPostId() {
+        var postId = MockBuilder.buildUUIDFromString();
+        Mockito.when(postRepository.existsById(postId)).thenReturn(true);
+        postRepositoryGateway.deletePost(postId);
+        Mockito.verify(postRepository).deleteById(postId);
     }
 }

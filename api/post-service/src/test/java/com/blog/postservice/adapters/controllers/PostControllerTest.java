@@ -84,4 +84,11 @@ public class PostControllerTest {
         Assertions.assertThat(response.getBody().description()).isEqualTo(description);
         Assertions.assertThat(response.getBody().createdAt()).isEqualTo(date);
     }
+
+    @Test
+    void shouldDeletePostWhen_SendRequest() {
+        var uuid = MockBuilder.buildUUIDFromString();
+        postController.deletePost(uuid);
+        Mockito.verify(postService).deletePost(uuid);
+    }
 }
