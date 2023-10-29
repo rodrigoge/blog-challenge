@@ -47,9 +47,8 @@ public class PostRepositoryGateway implements PostGateway {
                     "Error because post is not found in the database."
             );
         }
-        var id = postFounded.get().getId();
         var createdAt = postFounded.get().getCreatedAt();
-        var post = new Post(id, title, description, createdAt, commentaries);
+        var post = new Post(postId, title, description, createdAt, commentaries);
         return postRepository.save(post);
     }
 
