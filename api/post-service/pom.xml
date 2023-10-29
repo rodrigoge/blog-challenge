@@ -12,7 +12,7 @@
 	<artifactId>post-service</artifactId>
 	<version>1.0.0.0</version>
 	<name>post-service</name>
-	<description>Demo project for Spring Boot</description>
+	<description>The service responsible for create, list, update and delete posts.</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
