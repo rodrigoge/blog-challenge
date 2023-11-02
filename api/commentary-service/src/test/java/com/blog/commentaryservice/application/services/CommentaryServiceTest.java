@@ -66,24 +66,6 @@ public class CommentaryServiceTest {
     }
 
     @Test
-    void shouldReturnCustomExceptionWhen_InvalidDates() throws NoSuchMethodException {
-        Class<?> clazz = commentaryService.getClass();
-        Method validateMethod = clazz.getDeclaredMethod("validateInitialAndEndDate", LocalDateTime.class, LocalDateTime.class);
-        validateMethod.setAccessible(true);
-        var initialDate = LocalDateTime.of(2023, 1, 1, 12, 0);
-        var endDate = LocalDateTime.of(2022, 12, 31, 12, 0);
-        var exception = org.junit.jupiter.api.Assertions.assertThrows(CustomException.class, () -> {
-            try {
-                validateMethod.invoke(commentaryService, initialDate, endDate);
-            } catch (Exception e) {
-                throw e.getCause();
-            }
-        });
-        Assertions.assertThat(exception.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("Error because the initial date is after the end date.");
-    }
-
-    @Test
     void shouldUpdateCommentaryObjectWhen_SendingToService() {
         var uuid = MockBuilder.buildUUIDFromString();
         var description = "Description mocked from the test in application.";

@@ -23,7 +23,7 @@ public class MockBuilder {
                 MockBuilder.buildUUIDFromString(),
                 "Description mocked from the test in application.",
                 createLocalDateTime(),
-                createPost()
+                null
         );
     }
 
@@ -46,7 +46,7 @@ public class MockBuilder {
                 "Title mock test",
                 "Description mocked from the test in application.",
                 createLocalDateTime(),
-                List.of(createCommentary())
+                List.of(new Commentary())
         );
     }
 
