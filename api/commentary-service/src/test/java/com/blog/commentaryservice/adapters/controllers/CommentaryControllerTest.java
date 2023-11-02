@@ -1,7 +1,6 @@
 package com.blog.commentaryservice.adapters.controllers;
 
 import com.blog.commentaryservice.application.services.CommentaryService;
-import com.blog.commentaryservice.domain.entities.Commentary;
 import com.blog.commentaryservice.infrastructure.requests.OrderEnumRequest;
 import com.blog.commentaryservice.mocks.MockBuilder;
 import org.assertj.core.api.Assertions;

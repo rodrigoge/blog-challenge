@@ -7,10 +7,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 @SpringBootTest(properties = "spring.profiles.active=test", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CommentaryServiceApplicationTests {
 
-	@LocalServerPort
-	private int randomPort;
+    @LocalServerPort
+    private int randomPort;
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 }

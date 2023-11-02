@@ -2,7 +2,6 @@ package com.blog.commentaryservice.application.services;
 
 import com.blog.commentaryservice.adapters.mappers.CommentaryMapper;
 import com.blog.commentaryservice.application.gateways.CommentaryRepositoryGateway;
-import com.blog.commentaryservice.core.exceptions.CustomException;
 import com.blog.commentaryservice.domain.entities.Commentary;
 import com.blog.commentaryservice.mocks.MockBuilder;
 import org.assertj.core.api.Assertions;
@@ -14,10 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
 
-import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @ExtendWith(MockitoExtension.class)
