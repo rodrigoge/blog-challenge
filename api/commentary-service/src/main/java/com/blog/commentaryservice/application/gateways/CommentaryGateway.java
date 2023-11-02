@@ -1,7 +1,6 @@
 package com.blog.commentaryservice.application.gateways;
 
 import com.blog.commentaryservice.domain.entities.Commentary;
-import com.blog.commentaryservice.domain.entities.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

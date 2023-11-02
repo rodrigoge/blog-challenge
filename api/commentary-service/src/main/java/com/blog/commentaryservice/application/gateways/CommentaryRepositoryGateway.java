@@ -66,7 +66,7 @@ public class CommentaryRepositoryGateway implements CommentaryGateway {
                     "Error because the commentary is not found in the database."
             );
         }
-        if(!commentaryFounded.get().getPost().getId().equals(postId)) {
+        if (!commentaryFounded.get().getPost().getId().equals(postId)) {
             throw new CustomException(
                     HttpStatus.BAD_REQUEST,
                     LocalDateTime.now(),
@@ -97,7 +97,7 @@ public class CommentaryRepositoryGateway implements CommentaryGateway {
                     "Error because the commentary is not found in the database."
             );
         }
-        if(!commentaryFounded.get().getPost().getId().equals(postId)) {
+        if (!commentaryFounded.get().getPost().getId().equals(postId)) {
             throw new CustomException(
                     HttpStatus.BAD_REQUEST,
                     LocalDateTime.now(),
