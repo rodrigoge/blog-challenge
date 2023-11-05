@@ -1,7 +1,7 @@
 
 # Blog Challenge
 
-A challenge for developer a minimal blog with posts and commentaries using Clean Architecture, Spring and React.js
+A challenge for developer a minimal blog with posts and commentaries using Java + Spring and Clean Architecture.
 
 ## Tools
 
